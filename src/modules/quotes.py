@@ -40,7 +40,7 @@ def process_quotes(quotes):
     room_positions = {}
 
     for room_name, room_data in quotes.items():
-        if room_name.startswith('room') and room_name != 'room_credits':
+        if 'position' in room_data and 'connections' in room_data:
             rooms[room_name] = {
                 'connections': room_data.get('connections', []),
                 'item': room_data.get('item')
@@ -60,6 +60,8 @@ def process_quotes(quotes):
                     'room': room_name,
                     'key_message': room_data.get('key_message', '')
                 }
+        else:
+            logging.debug(f"Ignoring {room_name} because it is missing position or connections data")
 
     return rooms, items, room_positions
 

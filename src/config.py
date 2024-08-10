@@ -7,8 +7,9 @@ from src.modules.quotes import get_game_data, get_quote
 START_ROOM = "roomOne"
 
 # Add debug level option
-DEBUG_LEVEL = "DEBUG"  # Can be "DEBUG", "INFO", "WARNING", "ERROR", or "CRITICAL"
 #### CHANGE ME FOR RELEASE ####
+DEBUG_LEVEL = "DEBUG"  # Can be "DEBUG", "INFO", "WARNING", "ERROR", or "CRITICAL"
+FILE_DEBUG_LEVEL = "DEBUG"
 
 # Add log file path in temporary folder
 LOG_FILE = os.path.join(tempfile.gettempdir(), "dungeon_game.log")
