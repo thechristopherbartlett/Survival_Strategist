@@ -1,94 +1,137 @@
 {
-    "roomOne": {
-        "position": [50, 200],
-        "connections": {
-            "North": "roomTwo",
-            "South": "roomThree",
-            "East": "roomFive"
-        }
-    },
-    "roomTwo": {
-        "position": [50, 50],
-        "connections": {
-            "South": "roomOne"
-        },
-        "item": "One",
-        "key_message": "You found a itemOne answer the question to collect the item",
-        "question": "What is a common symptom of anxiety?",
-        "answers": ["Correct answer", "Incorrect answer"],
-        "correct_answer": "Correct answer"
-    },
-    "roomThree": {
-        "position": [50, 350],
-        "connections": {
-            "North": "roomOne",
-            "East": "roomFour"
-        },
-        "item": "Two",
-        "key_message": "You found a key to the door.",
-        "question": "What is a common symptom of depression?",
-        "answers": ["Correct answer", "Incorrect answer"],
-        "correct_answer": "Correct answer"
-    },
-    "roomFour": {
-        "position": [200, 350],
-        "connections": {
-            "West": "roomThree"
-        },
-        "item": "Three",
-        "key_message": "You found a key to the door.",
-        "question": "What is a common symptom of PTSD?",
-        "answers": ["Correct answer", "Incorrect answer"],
-        "correct_answer": "Correct answer"
-    },
-    "roomFive": {
-        "position": [200, 200],
-        "connections": {
-            "West": "roomOne",
-            "North": "roomSix",
-            "East": "roomEight"
-        },
-        "item": "Four",
-        "key_message": "You found a key to the door.",
-        "question": "What is a common symptom of bipolar disorder?",
-        "answers": ["Correct answer", "Incorrect answer"],
-        "correct_answer": "Correct answer"
-    },
-    "roomSix": {
-        "position": [200, 50],
-        "connections": {
-            "South": "roomFive",
-            "East": "roomSeven"
-        },
-        "item": "Five",
-        "key_message": "You found a key to the door.",
-        "question": "What is a common symptom of ADHD?",
-        "answers": ["Correct answer", "Incorrect answer"],
-        "correct_answer": "Correct answer"
-    },
-    "roomSeven": {
-        "position": [350, 50],
-        "connections": {
-            "West": "roomSix"
-        },
-        "item": "Six",
-        "key_message": "You found a key to the door.",
-        "question": "What is a common symptom of OCD?",
-        "answers": ["Correct answer", "Incorrect answer"],
-        "correct_answer": "Correct answer"
-    },
-    "roomEight": {
-        "position": [350, 200],
-        "connections": {
-            "West": "roomFive"
-        },
-        "boss": "Boss",
-        "key_message": "You've entered the final boss room. The air is thick with tension, and you can sense the presence of your inner demons."
-    },
-    "Battle": {
-        "key_message": "The battle against your inner demons has begun. Remember all that you've learned on your journey. Your strength lies in your resilience and growth."
-    },
-    "Credits": {
-        "key_message": "Congratulations on completing 'Castaway Retreat: Mind and Survival'!\n\nDeveloped by:\n- [Your Team Names]\n\nSpecial Thanks:\n- [Any acknowledgments]\n\nRemember, your mental health journey is ongoing. Stay strong and keep growing!"
+  "COLORS": {
+    "arrow_button_fg": "#1E90FF",
+    "dialog_button_fg": "#4169E1",
+    "collect_button_fg": "#228B22",
+    "try_later_button_fg": "#DC143C",
+    "frame_bg": "#F0F0F0",
+    "button_bg": "#4CAF50",
+    "button_hover": "#45a049",
+    "button_text": "#FFFFFF",
+    "try_later_button_bg": "#f44336",
+    "try_later_button_hover": "#d32f2f",
+    "dialog_bg": "#FFFFFF",
+    "transparent": [255, 255, 255, 0],
+    "connection": [200, 200, 200, 150],
+    "room_fill": [220, 220, 220, 230],
+    "room_border": [180, 180, 180, 255],
+    "room_shadow": [0, 0, 0, 30],
+    "room_highlight": [255, 255, 255, 50],
+    "room_text": [0, 0, 0, 255],
+    "explosion_bg": "black",
+    "explosion_particles": ["red", "orange", "yellow"],
+    "button_fg": "#4CAF50"
+  },
+  "SIZES": {
+    "map_width": 400,
+    "map_height": 400,
+    "character_width": 20,
+    "character_height": 20,
+    "room_size": 85,
+    "room_corner_radius": 20,
+    "room_font_size": 12,
+    "arrow_button_size": 40,
+    "dialog_wraplength": 350,
+    "explosion_width": 400,
+    "explosion_height": 400,
+    "explosion_particle_count": 100,
+    "explosion_particle_speed": 5,
+    "explosion_particle_min_radius": 2,
+    "explosion_particle_max_radius": 5,
+    "credits_width": 400,
+    "credits_height": 400,
+    "credits_wraplength": 350
+  },
+  "roomOne": {
+    "position": [50, 200],
+    "connections": {
+      "North": "roomTwo",
+      "South": "roomThree",
+      "East": "roomFive"
     }
+  },
+  "roomTwo": {
+    "position": [50, 50],
+    "connections": {
+      "South": "roomOne"
+    },
+    "item": "One",
+    "key_message": "You found a itemOne answer the question to collect the item",
+    "question": "What is a common symptom of anxiety?",
+    "answers": ["Correct answer", "Incorrect answer"],
+    "correct_answer": "Correct answer"
+  },
+  "roomThree": {
+    "position": [50, 350],
+    "connections": {
+      "North": "roomOne",
+      "East": "roomFour"
+    },
+    "item": "Two",
+    "key_message": "You found a key to the door.",
+    "question": "What is a common symptom of depression?",
+    "answers": ["Correct answer", "Incorrect answer"],
+    "correct_answer": "Correct answer"
+  },
+  "roomFour": {
+    "position": [200, 350],
+    "connections": {
+      "West": "roomThree"
+    },
+    "item": "Three",
+    "key_message": "You found a key to the door.",
+    "question": "What is a common symptom of PTSD?",
+    "answers": ["Correct answer", "Incorrect answer"],
+    "correct_answer": "Correct answer"
+  },
+  "roomFive": {
+    "position": [200, 200],
+    "connections": {
+      "West": "roomOne",
+      "North": "roomSix",
+      "East": "roomEight"
+    },
+    "item": "Four",
+    "key_message": "You found a key to the door.",
+    "question": "What is a common symptom of bipolar disorder?",
+    "answers": ["Correct answer", "Incorrect answer"],
+    "correct_answer": "Correct answer"
+  },
+  "roomSix": {
+    "position": [200, 50],
+    "connections": {
+      "South": "roomFive",
+      "East": "roomSeven"
+    },
+    "item": "Five",
+    "key_message": "You found a key to the door.",
+    "question": "What is a common symptom of ADHD?",
+    "answers": ["Correct answer", "Incorrect answer"],
+    "correct_answer": "Correct answer"
+  },
+  "roomSeven": {
+    "position": [350, 50],
+    "connections": {
+      "West": "roomSix"
+    },
+    "item": "Six",
+    "key_message": "You found a key to the door.",
+    "question": "What is a common symptom of OCD?",
+    "answers": ["Correct answer", "Incorrect answer"],
+    "correct_answer": "Correct answer"
+  },
+  "roomEight": {
+    "position": [350, 200],
+    "connections": {
+      "West": "roomFive"
+    },
+    "boss": "Boss",
+    "key_message": "You've entered the final boss room. The air is thick with tension, and you can sense the presence of your inner demons."
+  },
+  "Battle": {
+    "key_message": "The battle against your inner demons has begun. Remember all that you've learned on your journey. Your strength lies in your resilience and growth."
+  },
+  "room_credits": {
+    "key_message": "Congratulations on completing 'Castaway Retreat: Mind and Survival'!\n\nDeveloped by:\n- [Your Team Names]\n\nSpecial Thanks:\n- [Any acknowledgments]\n\nRemember, your mental health journey is ongoing. Stay strong and keep growing!"
+  }
 }

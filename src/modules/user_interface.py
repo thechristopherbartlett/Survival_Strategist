@@ -70,8 +70,13 @@ class DungeonGameGUI:
         # Draw connections
         for room, connections in ROOMS.items():
             start_x, start_y = ROOM_POSITION[room]
-            for direction, connected_room in connections['connections'].items():
-                if direction in ['North', 'South', 'East', 'West']:
+            if isinstance(connections['connections'], dict):
+                for direction, connected_room in connections['connections'].items():
+                    if direction in ['North', 'South', 'East', 'West']:
+                        end_x, end_y = ROOM_POSITION[connected_room]
+                        draw.line([(start_x, start_y), (end_x, end_y)], fill=COLORS['connection'], width=3)
+            elif isinstance(connections['connections'], list):
+                for connected_room in connections['connections']:
                     end_x, end_y = ROOM_POSITION[connected_room]
                     draw.line([(start_x, start_y), (end_x, end_y)], fill=COLORS['connection'], width=3)
 
@@ -260,21 +265,6 @@ class DungeonGameGUI:
         else:
             pass
 
-    def process_input(self, event):
-        """
-        Module: DungeonGameGUI.process_input
-        Date: 7/19/24
-        Programmer: Timothy Stowe
-        
-        Purpose: Processes user input from the input entry field and updates the game state.
-        
-        Version: 1.0
-        RTM: 014
-        """
-        logging.debug(f"Processing input: {self.input_entry.get()}")
-        self.msg = process_input(self.input_entry.get(), self.player, ROOMS)
-        self.input_entry.delete(0, ctk.END)
-        self.update_info()
 
     def move(self, direction):
         """

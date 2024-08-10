@@ -40,17 +40,17 @@ def process_quotes(quotes):
     room_positions = {}
 
     for room_name, room_data in quotes.items():
-        if room_name.startswith('room'):
+        if room_name.startswith('room') and room_name != 'room_credits':
             rooms[room_name] = {
-                'connections': room_data['connections'],
+                'connections': room_data.get('connections', []),
                 'item': room_data.get('item')
             }
-            room_positions[room_name] = tuple(room_data['position'])
+            room_positions[room_name] = tuple(room_data.get('position', (0, 0)))
             
             if 'item' in room_data:
                 items[room_data['item']] = {
                     'room': room_name,
-                    'key_message': room_data['key_message'],
+                    'key_message': room_data.get('key_message', ''),
                     'question': room_data.get('question'),
                     'answers': room_data.get('answers'),
                     'correct_answer': room_data.get('correct_answer')
@@ -58,7 +58,7 @@ def process_quotes(quotes):
             elif 'boss' in room_data:
                 items[room_data['boss']] = {
                     'room': room_name,
-                    'key_message': room_data['key_message']
+                    'key_message': room_data.get('key_message', '')
                 }
 
     return rooms, items, room_positions
@@ -93,6 +93,14 @@ def get_quote(item):
     """
     logging.debug(f"Getting quote for item: {item}")
     quotes = load_quotes()
+    
+    if item == "Credits":
+        return {
+            "key_message": quotes.get("room_credits", {}).get("key_message", "Thank you for playing!"),
+            "question": "",
+            "answers": [],
+            "correct_answer": ""
+        }
     
     for room_name, room_data in quotes.items():
         if room_data.get('item') == item or room_data.get('boss') == item:
