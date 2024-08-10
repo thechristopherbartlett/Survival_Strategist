@@ -1,41 +1,88 @@
 {
-    "One": {
+    "roomOne": {
+        "position": [50, 200],
+        "connections": {
+            "North": "roomTwo",
+            "South": "roomThree",
+            "East": "roomFive"
+        }
+    },
+    "roomTwo": {
+        "position": [50, 50],
+        "connections": {
+            "South": "roomOne"
+        },
+        "item": "One",
         "key_message": "You found a itemOne answer the question to collect the item",
         "question": "What is a common symptom of anxiety?",
         "answers": ["Correct answer", "Incorrect answer"],
         "correct_answer": "Correct answer"
     },
-    "Two": {
+    "roomThree": {
+        "position": [50, 350],
+        "connections": {
+            "North": "roomOne",
+            "East": "roomFour"
+        },
+        "item": "Two",
         "key_message": "You found a key to the door.",
         "question": "What is a common symptom of depression?",
         "answers": ["Correct answer", "Incorrect answer"],
         "correct_answer": "Correct answer"
     },
-    "Three": {
+    "roomFour": {
+        "position": [200, 350],
+        "connections": {
+            "West": "roomThree"
+        },
+        "item": "Three",
         "key_message": "You found a key to the door.",
         "question": "What is a common symptom of PTSD?",
         "answers": ["Correct answer", "Incorrect answer"],
         "correct_answer": "Correct answer"
     },
-    "Four": {
+    "roomFive": {
+        "position": [200, 200],
+        "connections": {
+            "West": "roomOne",
+            "North": "roomSix",
+            "East": "roomEight"
+        },
+        "item": "Four",
         "key_message": "You found a key to the door.",
         "question": "What is a common symptom of bipolar disorder?",
         "answers": ["Correct answer", "Incorrect answer"],
         "correct_answer": "Correct answer"
     },
-    "Five": {
+    "roomSix": {
+        "position": [200, 50],
+        "connections": {
+            "South": "roomFive",
+            "East": "roomSeven"
+        },
+        "item": "Five",
         "key_message": "You found a key to the door.",
         "question": "What is a common symptom of ADHD?",
         "answers": ["Correct answer", "Incorrect answer"],
         "correct_answer": "Correct answer"
     },
-    "Six": {
+    "roomSeven": {
+        "position": [350, 50],
+        "connections": {
+            "West": "roomSix"
+        },
+        "item": "Six",
         "key_message": "You found a key to the door.",
         "question": "What is a common symptom of OCD?",
         "answers": ["Correct answer", "Incorrect answer"],
         "correct_answer": "Correct answer"
     },
-    "Boss": {
+    "roomEight": {
+        "position": [350, 200],
+        "connections": {
+            "West": "roomFive"
+        },
+        "boss": "Boss",
         "key_message": "You've entered the final boss room. The air is thick with tension, and you can sense the presence of your inner demons."
     },
     "Battle": {

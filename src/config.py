@@ -1,6 +1,8 @@
 import os
 import tempfile
+from src.modules.quotes import get_game_data, get_quote
 
+# Existing configuration
 START_ROOM = "roomOne"
 
 # Add debug level option
@@ -15,32 +17,16 @@ LOG_FILE = os.path.join(tempfile.gettempdir(), "dungeon_game.log")
 print(f"Log file is located at: {LOG_FILE}")
 
 # Add the path of quotes.json file
-QUOTES_PATH = "src/quotes.json"
+QUOTES_PATH = "src/quotes.json" # TODO: Change in quotes.py currently hardcoded
 
-ROOM_POSITION = {
-    'roomOne': (50, 200),
-    'roomTwo': (50, 50),
-    'roomThree': (50, 350),
-    'roomFour': (200, 350),
-    'roomFive': (200, 200),
-    'roomSix': (200, 50),
-    'roomSeven': (350, 50),
-    'roomEight': (350, 200)
-}
+# Get game data from quotes.py
+ROOMS, ITEMS, ROOM_POSITION = get_game_data()
 
-ROOMS = {
-    'roomOne': {'North': 'roomTwo', 'South': 'roomThree', 'East': 'roomFive'},
-    'roomTwo': {'South': 'roomOne', 'Item': 'One'},
-    'roomThree': {'North': 'roomOne', 'East': 'roomFour', 'Item': 'Two'},
-    'roomFive' : {'West': 'roomOne', 'North': 'roomSix', 'East': 'roomEight', 'Item': 'Four'},
-    'roomSix' : {'South': 'roomFive', 'East': 'roomSeven', 'Item': 'Five'},
-    'roomSeven': {'West': 'roomSix', 'Item': 'Six'},
-    'roomFour': {'West': 'roomThree', 'Item': 'Three'},
-    'roomEight': {'West': 'roomFive', 'Boss': 'Boss'}
-}
+# Function to get quotes (can be used when needed)
+GET_QUOTE = get_quote
 
+# Existing color configurations
 COLORS = {
-    # ... other colors ...
     'arrow_button_fg': '#1E90FF',  # Dodger Blue for arrow buttons
     'dialog_button_fg': '#4169E1',  # Royal Blue for default dialog buttons
     'collect_button_fg': '#228B22',  # Forest Green for collect item button
@@ -65,6 +51,7 @@ COLORS = {
     'button_hover': '#45a049',  # Button hover color
 }
 
+# Existing size configurations
 SIZES = {
     'map_width': 400,
     'map_height': 400,

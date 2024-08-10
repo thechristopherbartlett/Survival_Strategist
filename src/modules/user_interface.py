@@ -1,9 +1,9 @@
 import customtkinter as ctk
 from customtkinter import CTkImage
 from PIL import Image, ImageDraw, ImageFont
-from src.modules.game_logic import Player, rooms, room_positions, process_input
+from src.modules.game_logic import Player
+from src.config import START_ROOM, COLORS, SIZES, ROOMS, ITEMS, ROOM_POSITION
 from src.modules.quotes import get_quote
-from src.config import START_ROOM, COLORS, SIZES
 import logging
 import random
 
@@ -68,16 +68,16 @@ class DungeonGameGUI:
         draw = ImageDraw.Draw(map_image)
 
         # Draw connections
-        for room, connections in rooms.items():
-            start_x, start_y = room_positions[room]
-            for direction, connected_room in connections.items():
+        for room, connections in ROOMS.items():
+            start_x, start_y = ROOM_POSITION[room]
+            for direction, connected_room in connections['connections'].items():
                 if direction in ['North', 'South', 'East', 'West']:
-                    end_x, end_y = room_positions[connected_room]
+                    end_x, end_y = ROOM_POSITION[connected_room]
                     draw.line([(start_x, start_y), (end_x, end_y)], fill=COLORS['connection'], width=3)
 
         # Draw rooms
         room_size = SIZES['room_size']
-        for room, (x, y) in room_positions.items():
+        for room, (x, y) in ROOM_POSITION.items():
             # Create the center of the room to be the center of the square
             x -= room_size // 2
             y -= room_size // 2
@@ -236,7 +236,7 @@ class DungeonGameGUI:
         RTM: 012
         """
         logging.debug(f"Updating character position to {self.player.current_room}")
-        x, y = room_positions[self.player.current_room]
+        x, y = ROOM_POSITION[self.player.current_room]
         self.character_label.place(x=x, y=y)
 
     def update_info(self):
@@ -272,7 +272,7 @@ class DungeonGameGUI:
         RTM: 014
         """
         logging.debug(f"Processing input: {self.input_entry.get()}")
-        self.msg = process_input(self.input_entry.get(), self.player, rooms)
+        self.msg = process_input(self.input_entry.get(), self.player, ROOMS)
         self.input_entry.delete(0, ctk.END)
         self.update_info()
 
@@ -284,13 +284,15 @@ class DungeonGameGUI:
         
         Purpose: Moves the player in the specified direction and updates the game state.
         
-        Version: 1.1
+        Version: 1.3
         RTM: 015
         """
         logging.debug(f"Moving {direction}")
-        self.msg = self.player.move(direction, rooms)
+        previous_room = self.player.current_room
+        self.msg = self.player.move(direction, ROOMS)
         self.update_info()
-        self.check_room_item()
+        if previous_room != self.player.current_room:
+            self.check_room_item()
 
     def check_room_item(self):
         """
@@ -300,11 +302,12 @@ class DungeonGameGUI:
         
         Purpose: Checks if there's an item in the current room and shows the item dialog if necessary.
         
-        Version: 1.2
+        Version: 1.4
         RTM: 016
         """
         current_room = self.player.current_room
-        room_item = rooms[current_room].get("Item")
+        room_item = ROOMS[current_room].get('item')
+        logging.debug(f"Checking for item in room {current_room}. Item found: {room_item}")
         if room_item and room_item not in self.player.inventory:
             self.show_item_dialog(room_item)
 
@@ -317,10 +320,11 @@ class DungeonGameGUI:
         Purpose: Displays a dialog with information about a newly found item,
         including a quote and a question.
         
-        Version: 1.2
+        Version: 1.3
         RTM: 017
         """
         quote_data = get_quote(item)
+        logging.debug(f"Showing item dialog for {item}. Quote data: {quote_data}")
         self.show_dialog(
             "New Item",
             f"You found: {item}\n\n{quote_data['key_message']}",
