@@ -1,7 +1,8 @@
 import customtkinter as ctk
 from customtkinter import CTkImage
 from PIL import Image, ImageDraw, ImageFont
-from src.modules.game_logic import Player, rooms, room_positions, process_input
+from src.modules.game_logic import Player
+from src.config import START_ROOM, COLORS, SIZES, ROOMS, ITEMS, ROOM_POSITION
 from src.modules.quotes import get_quote
 import logging
 import random
@@ -33,17 +34,17 @@ class DungeonGameGUI:
         logging.info("Initializing DungeonGameGUI")
         self.root = root
         self.root.title("Dungeon Game")
-        self.player = Player(start_room="roomOne")
+        self.player = Player(start_room=START_ROOM)
         self.msg = ""
 
         # Generate the map image
         map_image = self.generate_map()
-        self.map_image = CTkImage(light_image=map_image, dark_image=map_image, size=(400, 400))
+        self.map_image = CTkImage(light_image=map_image, dark_image=map_image, size=(SIZES['map_width'], SIZES['map_height']))
 
         # Load the character image
         character_image = Image.open("src/media/character.png")
         
-        self.character_image = CTkImage(light_image=character_image, dark_image=character_image, size=(20, 20))
+        self.character_image = CTkImage(light_image=character_image, dark_image=character_image, size=(SIZES['character_width'], SIZES['character_height']))
 
 
         self.create_widgets()
@@ -62,29 +63,34 @@ class DungeonGameGUI:
         RTM: 31
         """
         logging.info("Generating map")
-        map_size = (400, 400)
-        map_image = Image.new('RGBA', map_size, color=(255, 255, 255, 0))  # Transparent background
+        map_size = (SIZES['map_width'], SIZES['map_height'])
+        map_image = Image.new('RGBA', map_size, color=COLORS['transparent'])
         draw = ImageDraw.Draw(map_image)
 
         # Draw connections
-        for room, connections in rooms.items():
-            start_x, start_y = room_positions[room]
-            for direction, connected_room in connections.items():
-                if direction in ['North', 'South', 'East', 'West']:
-                    end_x, end_y = room_positions[connected_room]
-                    draw.line([(start_x, start_y), (end_x, end_y)], fill=(200, 200, 200, 150), width=3)
+        for room, connections in ROOMS.items():
+            start_x, start_y = ROOM_POSITION[room]
+            if isinstance(connections['connections'], dict):
+                for direction, connected_room in connections['connections'].items():
+                    if direction in ['North', 'South', 'East', 'West']:
+                        end_x, end_y = ROOM_POSITION[connected_room]
+                        draw.line([(start_x, start_y), (end_x, end_y)], fill=COLORS['connection'], width=3)
+            elif isinstance(connections['connections'], list):
+                for connected_room in connections['connections']:
+                    end_x, end_y = ROOM_POSITION[connected_room]
+                    draw.line([(start_x, start_y), (end_x, end_y)], fill=COLORS['connection'], width=3)
 
         # Draw rooms
-        room_size = 85
-        for room, (x, y) in room_positions.items():
+        room_size = SIZES['room_size']
+        for room, (x, y) in ROOM_POSITION.items():
             # Create the center of the room to be the center of the square
             x -= room_size // 2
             y -= room_size // 2
 
             # Draw a rounded square room with Apple-inspired design
-            corner_radius = 20
-            room_color = (220, 220, 220, 230)  # Light gray, slightly transparent
-            border_color = (180, 180, 180, 255)  # Darker gray for border
+            corner_radius = SIZES['room_corner_radius']
+            room_color = COLORS['room_fill']
+            border_color = COLORS['room_border']
             
             # Draw the main rounded square
             draw.rounded_rectangle([x, y, x + room_size, y + room_size], 
@@ -95,7 +101,7 @@ class DungeonGameGUI:
             
             # Add a subtle inner shadow
             shadow_offset = 3
-            shadow_color = (0, 0, 0, 30)  # Very light black for shadow
+            shadow_color = COLORS['room_shadow']
             draw.rounded_rectangle([x + shadow_offset, y + shadow_offset, 
                                     x + room_size - shadow_offset, y + room_size - shadow_offset],
                                    radius=corner_radius,
@@ -105,7 +111,7 @@ class DungeonGameGUI:
             
             # Add a subtle highlight
             highlight_offset = 1
-            highlight_color = (255, 255, 255, 50)  # Very light white for highlight
+            highlight_color = COLORS['room_highlight']
             draw.rounded_rectangle([x + highlight_offset, y + highlight_offset, 
                                     x + room_size - highlight_offset, y + room_size - highlight_offset],
                                    radius=corner_radius,
@@ -113,7 +119,7 @@ class DungeonGameGUI:
                                    outline=highlight_color,
                                    width=1)
             # Add room name
-            font_size = 12
+            font_size = SIZES['room_font_size']
             font = ImageFont.truetype("arial.ttf", font_size)
             text_bbox = draw.textbbox((0, 0), room, font=font)
             text_width = text_bbox[2] - text_bbox[0]
@@ -122,11 +128,7 @@ class DungeonGameGUI:
             text_y = y + (room_size - text_height) // 2
 
             # Split and capitalize room name
-            room_words = room.split('room')
-            if len(room_words) > 1:
-                capitalized_room = 'Room ' + room_words[1].capitalize()
-            else:
-                capitalized_room = room.capitalize()
+            capitalized_room = room.capitalize()
 
 
             # Recalculate text position with new room name
@@ -136,7 +138,7 @@ class DungeonGameGUI:
             text_x = x + (room_size - text_width) // 2
             text_y = y + (room_size - text_height) // 2
 
-            draw.text((text_x, text_y), capitalized_room, fill=(0, 0, 0, 255), font=font)
+            draw.text((text_x, text_y), capitalized_room, fill=COLORS['room_text'], font=font)
 
         return map_image
 
@@ -169,22 +171,27 @@ class DungeonGameGUI:
         self.info_label.pack()
 
         # Add arrow buttons
-        button_size = 40
+        button_size = SIZES['arrow_button_size']
         arrow_frame = ctk.CTkFrame(self.controls_frame)
         arrow_frame.pack(pady=10)
-        # Remove the background color from the arrow frame
         arrow_frame.configure(fg_color="transparent")
 
-        self.north_button = ctk.CTkButton(arrow_frame, text="↑", width=button_size, height=button_size, command=lambda: self.move("North"))
+        arrow_button_params = {
+            'width': button_size,
+            'height': button_size,
+            'fg_color': COLORS['arrow_button_fg'],
+        }
+
+        self.north_button = ctk.CTkButton(arrow_frame, text="↑", command=lambda: self.move("North"), **arrow_button_params)
         self.north_button.grid(row=0, column=1)
 
-        self.west_button = ctk.CTkButton(arrow_frame, text="←", width=button_size, height=button_size, command=lambda: self.move("West"))
+        self.west_button = ctk.CTkButton(arrow_frame, text="←", command=lambda: self.move("West"), **arrow_button_params)
         self.west_button.grid(row=1, column=0)
 
-        self.east_button = ctk.CTkButton(arrow_frame, text="→", width=button_size, height=button_size, command=lambda: self.move("East"))
+        self.east_button = ctk.CTkButton(arrow_frame, text="→", command=lambda: self.move("East"), **arrow_button_params)
         self.east_button.grid(row=1, column=2)
 
-        self.south_button = ctk.CTkButton(arrow_frame, text="↓", width=button_size, height=button_size, command=lambda: self.move("South"))
+        self.south_button = ctk.CTkButton(arrow_frame, text="↓", command=lambda: self.move("South"), **arrow_button_params)
         self.south_button.grid(row=2, column=1)
 
         self.character_label = ctk.CTkLabel(self.map_frame, text="")  # Initialize without text
@@ -234,7 +241,7 @@ class DungeonGameGUI:
         RTM: 012
         """
         logging.debug(f"Updating character position to {self.player.current_room}")
-        x, y = room_positions[self.player.current_room]
+        x, y = ROOM_POSITION[self.player.current_room]
         self.character_label.place(x=x, y=y)
 
     def update_info(self):
@@ -258,21 +265,6 @@ class DungeonGameGUI:
         else:
             pass
 
-    def process_input(self, event):
-        """
-        Module: DungeonGameGUI.process_input
-        Date: 7/19/24
-        Programmer: Timothy Stowe
-        
-        Purpose: Processes user input from the input entry field and updates the game state.
-        
-        Version: 1.0
-        RTM: 014
-        """
-        logging.debug(f"Processing input: {self.input_entry.get()}")
-        self.msg = process_input(self.input_entry.get(), self.player, rooms)
-        self.input_entry.delete(0, ctk.END)
-        self.update_info()
 
     def move(self, direction):
         """
@@ -282,13 +274,15 @@ class DungeonGameGUI:
         
         Purpose: Moves the player in the specified direction and updates the game state.
         
-        Version: 1.1
+        Version: 1.3
         RTM: 015
         """
         logging.debug(f"Moving {direction}")
-        self.msg = self.player.move(direction, rooms)
+        previous_room = self.player.current_room
+        self.msg = self.player.move(direction, ROOMS)
         self.update_info()
-        self.check_room_item()
+        if previous_room != self.player.current_room:
+            self.check_room_item()
 
     def check_room_item(self):
         """
@@ -298,11 +292,12 @@ class DungeonGameGUI:
         
         Purpose: Checks if there's an item in the current room and shows the item dialog if necessary.
         
-        Version: 1.2
+        Version: 1.4
         RTM: 016
         """
         current_room = self.player.current_room
-        room_item = rooms[current_room].get("Item")
+        room_item = ROOMS[current_room].get('item')
+        logging.debug(f"Checking for item in room {current_room}. Item found: {room_item}")
         if room_item and room_item not in self.player.inventory:
             self.show_item_dialog(room_item)
 
@@ -315,10 +310,11 @@ class DungeonGameGUI:
         Purpose: Displays a dialog with information about a newly found item,
         including a quote and a question.
         
-        Version: 1.2
+        Version: 1.3
         RTM: 017
         """
         quote_data = get_quote(item)
+        logging.debug(f"Showing item dialog for {item}. Quote data: {quote_data}")
         self.show_dialog(
             "New Item",
             f"You found: {item}\n\n{quote_data['key_message']}",
@@ -353,25 +349,23 @@ class DungeonGameGUI:
         content_frame = ctk.CTkFrame(dialog)
         content_frame.pack(padx=20, pady=20, fill="both", expand=True)
 
-        label = ctk.CTkLabel(content_frame, text=message, wraplength=350)
+        label = ctk.CTkLabel(content_frame, text=message, wraplength=SIZES['dialog_wraplength'])
         label.pack(pady=10)
 
-        question_label = ctk.CTkLabel(content_frame, text=question, wraplength=350)
+        question_label = ctk.CTkLabel(content_frame, text=question, wraplength=SIZES['dialog_wraplength'])
         question_label.pack(pady=10)
 
         result_label = ctk.CTkLabel(content_frame, text="")
         result_label.pack(pady=10)
 
-        ok_button = ctk.CTkButton(content_frame, text="Collect Item", state="disabled")
+        ok_button = ctk.CTkButton(content_frame, text="Collect Item", state="disabled", fg_color=COLORS['collect_button_fg'])
         ok_button.pack(side="left", padx=(0, 10), pady=10)
 
         def on_try_later():
             dialog.destroy()
 
-        try_later_button = ctk.CTkButton(content_frame, text="Try Again Later", command=on_try_later)
+        try_later_button = ctk.CTkButton(content_frame, text="Try Again Later", command=on_try_later, fg_color=COLORS['try_later_button_fg'])
         try_later_button.pack(side="right", padx=(10, 0), pady=10)
-        # Change the color to red for the try later button
-        try_later_button.configure(fg_color="red")
 
         def check_answer(selected_answer):
             nonlocal correct_answer_given
@@ -445,7 +439,7 @@ class DungeonGameGUI:
         message_label = ctk.CTkLabel(content_frame, text=boss_data["key_message"], wraplength=350)
         message_label.pack(pady=10)
 
-        fight_button = ctk.CTkButton(content_frame, text="Fight Boss", command=lambda: self.fight_boss(dialog))
+        fight_button = ctk.CTkButton(content_frame, text="Fight Boss", command=lambda: self.fight_boss(dialog), fg_color=COLORS['dialog_button_fg'])
         fight_button.pack(pady=10)
 
         if not self.player.can_fight_boss():
@@ -454,7 +448,7 @@ class DungeonGameGUI:
             instruction_label = ctk.CTkLabel(content_frame, text=f"Collect {items_needed} more item(s) to fight the boss.", wraplength=350)
             instruction_label.pack(pady=10)
 
-        exit_button = ctk.CTkButton(content_frame, text="Exit Room", command=lambda: self.close_boss_dialog(dialog))
+        exit_button = ctk.CTkButton(content_frame, text="Exit Room", command=lambda: self.close_boss_dialog(dialog), fg_color=COLORS['dialog_button_fg'])
         exit_button.pack(pady=10)
 
         dialog.update_idletasks()
@@ -506,19 +500,19 @@ class DungeonGameGUI:
         explosion = ctk.CTkToplevel(self.root)
         explosion.title("Explosion")
         explosion.attributes('-topmost', True)
-        explosion.geometry("400x400")
+        explosion.geometry(f"{SIZES['explosion_width']}x{SIZES['explosion_height']}")
 
-        canvas = ctk.CTkCanvas(explosion, width=400, height=400, bg="black")
+        canvas = ctk.CTkCanvas(explosion, width=SIZES['explosion_width'], height=SIZES['explosion_height'], bg=COLORS['explosion_bg'])
         canvas.pack()
 
         particles = []
-        for _ in range(100):
-            x = 200
-            y = 200
-            dx = random.uniform(-5, 5)
-            dy = random.uniform(-5, 5)
-            radius = random.uniform(2, 5)
-            color = random.choice(["red", "orange", "yellow"])
+        for _ in range(SIZES['explosion_particle_count']):
+            x = SIZES['explosion_width'] // 2
+            y = SIZES['explosion_height'] // 2
+            dx = random.uniform(-SIZES['explosion_particle_speed'], SIZES['explosion_particle_speed'])
+            dy = random.uniform(-SIZES['explosion_particle_speed'], SIZES['explosion_particle_speed'])
+            radius = random.uniform(SIZES['explosion_particle_min_radius'], SIZES['explosion_particle_max_radius'])
+            color = random.choice(COLORS['explosion_particles'])
             particles.append([x, y, dx, dy, radius, color])
 
         def animate_explosion(step=0):
@@ -582,10 +576,10 @@ class DungeonGameGUI:
         credits = ctk.CTkToplevel(self.root)
         credits.title("Credits")
         credits.attributes('-topmost', True)
-        credits.geometry("400x400")
+        credits.geometry(f"{SIZES['credits_width']}x{SIZES['credits_height']}")
 
-        credits_label = ctk.CTkLabel(credits, text=credits_data["key_message"], wraplength=350)
+        credits_label = ctk.CTkLabel(credits, text=credits_data["key_message"], wraplength=SIZES['credits_wraplength'])
         credits_label.pack(pady=20)
 
-        close_button = ctk.CTkButton(credits, text="Close", command=credits.destroy)
+        close_button = ctk.CTkButton(credits, text="Close", command=credits.destroy, fg_color=COLORS['dialog_button_fg'])
         close_button.pack(pady=10)

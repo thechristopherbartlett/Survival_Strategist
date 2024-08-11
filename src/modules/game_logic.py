@@ -40,12 +40,11 @@ class Player:
         Version: 1.2
         RTM: 003
         """
-        try:
-            new_room = rooms[self.current_room][direction]
-            self.current_room = new_room
-            return f"You travel {direction}"
-        except KeyError:
-            return "You can't go that way."
+        if direction in rooms[self.current_room]['connections']:
+            self.current_room = rooms[self.current_room]['connections'][direction]
+            return f"You moved {direction} to {self.current_room}"
+        else:
+            return "You can't go that way"
 
     def get_item(self, item, rooms):
         """
