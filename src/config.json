@@ -42,88 +42,88 @@
     "credits_height": 400,
     "credits_wraplength": 350
   },
-  "roomOne": {
+  "The Beginning": {
     "position": [50, 200],
     "connections": {
-      "North": "roomTwo",
-      "South": "roomThree",
-      "East": "roomFive"
+      "North": "Anxiety",
+      "South": "Depression",
+      "East": "Bipolar Disorder"
     }
   },
-  "roomTwo": {
+  "Anxiety": {
     "position": [50, 50],
     "connections": {
-      "South": "roomOne"
+      "South": "The Beginning"
     },
-    "item": "One",
-    "key_message": "You found a itemOne answer the question to collect the item",
+    "item": "Xanax",
+    "key_message": "You found Xanax, answer the question to collect the item.",
     "question": "What is a common symptom of anxiety?",
-    "answers": ["Correct answer", "Incorrect answer"],
-    "correct_answer": "Correct answer"
+    "answers": ["Persistent Worrying", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
+    "correct_answer": "Persistent Worrying"
   },
-  "roomThree": {
+  "Depression": {
     "position": [50, 350],
     "connections": {
-      "North": "roomOne",
-      "East": "roomFour"
+      "North": "The Beginning",
+      "East": "Post Traumatic Stress Disorder"
     },
-    "item": "Two",
-    "key_message": "You found a key to the door.",
+    "item": "Lexapro",
+    "key_message": "You found Lexapro, answer the question to collect the item.",
     "question": "What is a common symptom of depression?",
-    "answers": ["Correct answer", "Incorrect answer"],
+    "answers": ["Correct answer", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
     "correct_answer": "Correct answer"
   },
-  "roomFour": {
+  "Post Traumatic Stress Disorder": {
     "position": [200, 350],
     "connections": {
-      "West": "roomThree"
+      "West": "Depression"
     },
-    "item": "Three",
-    "key_message": "You found a key to the door.",
-    "question": "What is a common symptom of PTSD?",
-    "answers": ["Correct answer", "Incorrect answer"],
-    "correct_answer": "Correct answer"
+    "item": "Prazosin",
+    "key_message": "You found Prazosin, answer the question to collect the item.",
+    "question": "What is a common symptom of Post Traumatic Stress Disorder?",
+    "answers": ["Feelings of Hopelessness", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
+    "correct_answer": "Feelings of Hopelessness"
   },
-  "roomFive": {
+  "Bipolar Disorder": {
     "position": [200, 200],
     "connections": {
-      "West": "roomOne",
-      "North": "roomSix",
-      "East": "roomEight"
+      "West": "The Beginning",
+      "North": "Attention Deficit Hyperactivity Disorder",
+      "East": "Inner Demons"
     },
-    "item": "Four",
-    "key_message": "You found a key to the door.",
+    "item": "Lamictal",
+    "key_message": "You found Lamictal, answer the question to collect the item.",
     "question": "What is a common symptom of bipolar disorder?",
-    "answers": ["Correct answer", "Incorrect answer"],
-    "correct_answer": "Correct answer"
+    "answers": ["Manic or Depressive Episodes", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
+    "correct_answer": "Manic or Depressive Episodes"
   },
-  "roomSix": {
+  "Attention Deficit Hyperactivity Disorder": {
     "position": [200, 50],
     "connections": {
-      "South": "roomFive",
-      "East": "roomSeven"
+      "South": "Bipolar Disorder",
+      "East": "Obsessive Compulsive Disorder"
     },
-    "item": "Five",
-    "key_message": "You found a key to the door.",
-    "question": "What is a common symptom of ADHD?",
-    "answers": ["Correct answer", "Incorrect answer"],
-    "correct_answer": "Correct answer"
+    "item": "Adderall",
+    "key_message": "You found Adderall, answer the question to collect the item.",
+    "question": "What is a common symptom of Attention Deficit Hyperactivity Disorder (ADHD)?",
+    "answers": ["Impulsiveness", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
+    "correct_answer": "Impulsiveness"
   },
-  "roomSeven": {
+  "Obsessive Compulsive Disorder": {
     "position": [350, 50],
     "connections": {
-      "West": "roomSix"
+      "West": "Attention Deficit Hyperactivity Disorder"
     },
-    "item": "Six",
-    "key_message": "You found a key to the door.",
-    "question": "What is a common symptom of OCD?",
-    "answers": ["Correct answer", "Incorrect answer"],
-    "correct_answer": "Correct answer"
+    "item": "Zoloft",
+    "key_message": "You found Zoloft, answer the question to collect the item.",
+    "question": "What is a common symptom of Obsessive Compulsive Disorder (OCD)?",
+    "answers": ["Repetitive Rituals", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
+    "correct_answer": "Repetitive Rituals"
   },
-  "roomEight": {
+  "Inner Demons": {
     "position": [350, 200],
     "connections": {
-      "West": "roomFive"
+      "West": "Bipolar Disorder"
     },
     "boss": "Boss",
     "key_message": "You've entered the final boss room. The air is thick with tension, and you can sense the presence of your inner demons."

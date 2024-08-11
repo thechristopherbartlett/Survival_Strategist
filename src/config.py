@@ -4,7 +4,7 @@ import json
 from src.modules.quotes import get_game_data, get_quote
 
 # Existing configuration
-START_ROOM = "roomOne"
+START_ROOM = "The Beginning"
 
 # Add debug level option
 #### CHANGE ME FOR RELEASE ####

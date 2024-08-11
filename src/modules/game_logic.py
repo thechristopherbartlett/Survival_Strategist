@@ -110,7 +110,7 @@ def process_input(user_input, player, rooms):
         return player.move(direction, rooms)
     elif action == "Get":
         return player.get_item(item, rooms)
-    elif action == "Fight" and player.current_room == "roomEight":
+    elif action == "Fight" and player.current_room == "Inner Demons":
         if player.can_fight_boss():
             return "BossFight"
         else:

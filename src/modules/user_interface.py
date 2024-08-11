@@ -260,7 +260,7 @@ class DungeonGameGUI:
         info_text = f"You are in the {self.player.current_room}\nInventory: {self.player.inventory}\n"
         self.info_label.configure(text=info_text, anchor="center")
         self.update_character_position()
-        if self.player.current_room == "roomEight":
+        if self.player.current_room == "Inner Demons":
             self.show_boss_dialog()
         else:
             pass
