@@ -58,7 +58,7 @@
     "item": "Xanax",
     "key_message": "You found Xanax, answer the question to collect the item.",
     "question": "What is a common symptom of anxiety?",
-    "answers": ["Persistent Worrying", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
+    "answers": ["Persistent Worrying", "Seizures", "Impulsivity", "Irritability"],
     "correct_answer": "Persistent Worrying"
   },
   "Depression": {
@@ -70,8 +70,8 @@
     "item": "Lexapro",
     "key_message": "You found Lexapro, answer the question to collect the item.",
     "question": "What is a common symptom of depression?",
-    "answers": ["Correct answer", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
-    "correct_answer": "Correct answer"
+    "answers": ["Feelings of Hopelessness", "Impulsiveness", "Repetitive Rituals", "Heightened Appetite"],
+    "correct_answer": "Feelings of Hopelessness"
   },
   "Post Traumatic Stress Disorder": {
     "position": [200, 350],
@@ -81,8 +81,8 @@
     "item": "Prazosin",
     "key_message": "You found Prazosin, answer the question to collect the item.",
     "question": "What is a common symptom of Post Traumatic Stress Disorder?",
-    "answers": ["Feelings of Hopelessness", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
-    "correct_answer": "Feelings of Hopelessness"
+    "answers": ["Feeling Emotionally Numb", "Manic Episodes", "Bouts of High Energy", "Hyperactivity"],
+    "correct_answer": "Feeling Emotionally Numb"
   },
   "Bipolar Disorder": {
     "position": [200, 200],
@@ -94,7 +94,7 @@
     "item": "Lamictal",
     "key_message": "You found Lamictal, answer the question to collect the item.",
     "question": "What is a common symptom of bipolar disorder?",
-    "answers": ["Manic or Depressive Episodes", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
+    "answers": ["Manic or Depressive Episodes", "Hyperfixations", "Persistent Worrying", "Gastrointestinal Issues"],
     "correct_answer": "Manic or Depressive Episodes"
   },
   "Attention Deficit Hyperactivity Disorder": {
@@ -106,7 +106,7 @@
     "item": "Adderall",
     "key_message": "You found Adderall, answer the question to collect the item.",
     "question": "What is a common symptom of Attention Deficit Hyperactivity Disorder (ADHD)?",
-    "answers": ["Impulsiveness", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
+    "answers": ["Impulsiveness", "Manic Episodes", "Irritability", "Feeling Emotionally Numb"],
     "correct_answer": "Impulsiveness"
   },
   "Obsessive Compulsive Disorder": {
@@ -117,7 +117,7 @@
     "item": "Zoloft",
     "key_message": "You found Zoloft, answer the question to collect the item.",
     "question": "What is a common symptom of Obsessive Compulsive Disorder (OCD)?",
-    "answers": ["Repetitive Rituals", "Incorrect answer", "Incorrect answer", "Incorrect answer"],
+    "answers": ["Repetitive Rituals", "Irritability", "Sleeping Too Much", "Hyperactivity"],
     "correct_answer": "Repetitive Rituals"
   },
   "Inner Demons": {
@@ -132,6 +132,6 @@
     "key_message": "The battle against your inner demons has begun. Remember all that you've learned on your journey. Your strength lies in your resilience and growth."
   },
   "room_credits": {
-    "key_message": "Congratulations on completing 'Castaway Retreat: Mind and Survival'!\n\nDeveloped by:\n- [Your Team Names]\n\nSpecial Thanks:\n- [Any acknowledgments]\n\nRemember, your mental health journey is ongoing. Stay strong and keep growing!"
+    "key_message": "Congratulations on completing 'Castaway Retreat: Mind and Survival'!\n\nDeveloped by:\n- Survival Strategist\n\nSpecial Thanks:\n- Great job to each member of the team for working together efficiently on this project!\n\nRemember, your mental health journey is ongoing. Stay strong and keep growing!"
   }
 }
